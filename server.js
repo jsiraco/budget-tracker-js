@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/budget", {
+mongoose.connect("mongodb+srv://JSiraco:rootroot@cluster0.iabgj.mongodb.net/galleryDB?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useFindAndModify: false
 });
