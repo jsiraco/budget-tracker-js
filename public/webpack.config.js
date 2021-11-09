@@ -36,9 +36,9 @@ const conifg = {
             start_url: '/',
             icons: [
                 {
-                    src: path.resolve('public/icons/icon-192x192.png'),
+                    src: path.resolve('public/assets/icons/icon-192x192.png'),
                     sizes: [96, 128, 192, 256, 384, 512],
-                    destination: path.join('public', 'icons'),
+                    destination: path.join('assets', 'icons'),
                 },
             ],
         }),

@@ -1,9 +1,10 @@
+// Files to be stored locally
 const FILES_TO_CACHE = [
     "/",
     "index.html",
-    "styles.css",
-    "/icons/icon-192x192.png",
-    "/icons/icon-512x512.png",
+    "/assets/styles.css",
+    "/assets/icons/icon-192x192.png",
+    "/assets/icons/icon-512x512.png",
     "/dist/app.bundle.js",
 ];
 
@@ -19,7 +20,7 @@ self.addEventListener("install", (event) => {
     );
 });
 
-// The activate handler takes care of cleaning up old caches.
+// Removes old code
 self.addEventListener("activate", (event) => {
     const currentCaches = [PRECACHE, RUNTIME];
     event.waitUntil(
