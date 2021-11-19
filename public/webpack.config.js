@@ -3,7 +3,8 @@ const path = require('path');
 
 const conifg = {
     entry: {
-        app: "./index.js"
+        app: "./index.js",
+        indexedDB: "./indexedDB.js"
     },
     output: {
         path: __dirname + '/dist',
@@ -44,3 +45,4 @@ const conifg = {
         }),
     ],
 }
+module.exports = config;
