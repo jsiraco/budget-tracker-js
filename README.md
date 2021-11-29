@@ -23,6 +23,7 @@ This work is protected under the MIT License: (https://opensource.org/licenses/M
 
 
 ## Usage
+![budget-tracker](https://user-images.githubusercontent.com/83827081/143937717-4827af3b-3e13-41fb-812f-a20408305295.png)
 
 
 ## Questions
