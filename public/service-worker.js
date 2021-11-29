@@ -7,7 +7,6 @@ const FILES_TO_CACHE = [
     "/assets/icons/icon-512x512.png",
     '/dist/manifest.json',
     "/dist/app.bundle.js",
-    "/dist/indexedDB.js",
 ];
 
 const PRECACHE = "precache-v1";

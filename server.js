@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 require('dotenv').config();
 
+
 const PORT = 3000;
 
 const app = express();
@@ -17,7 +18,6 @@ app.use(express.json());
 app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI, {
-  useUnifiedTopology: true,
   useNewUrlParser: true,
   useFindAndModify: false
 });
