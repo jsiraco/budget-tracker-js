@@ -23,7 +23,9 @@ mongoose.connect(process.env.MONGODB_URI, {
   useFindAndModify: false
 });
 
-// app.get()
+app.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
 
 // routes
 app.use(require("./routes/api.js"));
