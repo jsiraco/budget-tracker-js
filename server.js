@@ -5,7 +5,7 @@ const compression = require("compression");
 require('dotenv').config();
 
 
-const PORT = 3000;
+const PLORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -23,9 +23,11 @@ mongoose.connect(process.env.MONGODB_URI, {
   useFindAndModify: false
 });
 
+// app.get()
+
 // routes
 app.use(require("./routes/api.js"));
 
 app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}!`);
+  console.log(`App running on port ${PLORT}!`);
 });
