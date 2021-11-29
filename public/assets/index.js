@@ -1,23 +1,20 @@
 let transactions = [];
 let myChart;
 
-const fetchData = () => {
-  fetch("/api/transaction")
-    .then(response => {
-      return response.json();
-    })
-    .then(data => {
-      // save db data on global variable
-      transactions = data;
+fetch("/api/transaction")
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    // save db data on global variable
+    transactions = data;
 
-      populateTotal();
-      populateTable();
-      populateChart();
-    });
-};
+    populateTotal();
+    populateTable();
+    populateChart();
+    console.log("Connected");
+  });
 
-fetchData();
-console.log("Hello!");
 
 const checkForIndexedDB = () => {
   if (!window.indexedDB) {
@@ -191,7 +188,7 @@ function sendTransaction(isAdding) {
     })
     .catch(err => {
       // fetch failed, so save in indexed db
-      saveRecord(transaction);
+      //saveRecord(transaction);
       useIndexedDB("modelName", "modelStore", "put", { transaction });
 
       // clear form
