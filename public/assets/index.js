@@ -1,67 +1,73 @@
 let transactions = [];
 let myChart;
 
+const fetchData = () => {
+  fetch("/api/transaction")
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      // save db data on global variable
+      transactions = data;
+
+      populateTotal();
+      populateTable();
+      populateChart();
+    });
+};
+
+fetchData();
+console.log("Hello!");
+
 const checkForIndexedDB = () => {
   if (!window.indexedDB) {
-      console.log("Your browser doesn't support a stable version of IndexedDB.");
-      return false;
+    console.log("Your browser doesn't support a stable version of IndexedDB.");
+    return false;
   }
   return true;
 };
 
-const useIndexedDB = () => {
+function useIndexedDB(databaseName, storeName, method, object) {
   return new Promise((resolve, reject) => {
-      const request = window.indexedDB.open(databaseName, 1);
-      let db, c
-      tx,
-          store;
+    const request = window.indexedDB.open(databaseName, 1);
+    let db, c
+    tx,
+      store;
 
-      request.onupgradeneeded = function (e) {
-          const db = request.result;
-          db.createObjectStore(storeName, { keyPath: "_id" });
+    request.onupgradeneeded = function (e) {
+      const db = request.result;
+      db.createObjectStore(storeName, { keyPath: "_id" });
+    };
+
+    request.onerror = function (e) {
+      console.log("There was an error");
+    };
+
+    request.onsuccess = function (e) {
+      db = request.result;
+      tx = db.transaction(storeName, "readwrite");
+      store = tx.objectStore(storeName);
+
+      db.onerror = function (e) {
+        console.log("error");
       };
-
-      request.onerror = function (e) {
-          console.log("There was an error");
+      if (method === "put") {
+        store.put(object);
+      } else if (method === "get") {
+        const all = store.getAll();
+        all.onsuccess = function () {
+          resolve(all.result);
+        };
+      } else if (method === "delete") {
+        store.delete(object._id);
+      }
+      tx.oncomplete = function () {
+        db.close();
       };
-
-      request.onsuccess = function (e) {
-          db = request.result;
-          tx = db.transaction(storeName, "readwrite");
-          store = tx.objectStore(storeName);
-
-          db.onerror = function (e) {
-              console.log("error");
-          };
-          if (method === "put") {
-              store.put(object);
-          } else if (method === "get") {
-              const all = store.getAll();
-              all.onsuccess = function () {
-                  resolve(all.result);
-              };
-          } else if (method === "delete") {
-              store.delete(object._id);
-          }
-          tx.oncomplete = function () {
-              db.close();
-          };
-      };
+    };
   });
 };
 
-fetch("/api/transaction")
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-    // save db data on global variable
-    transactions = data;
-
-    populateTotal();
-    populateTable();
-    populateChart();
-  });
 
 function populateTotal() {
   // reduce transaction amounts to a single total value
@@ -185,7 +191,7 @@ function sendTransaction(isAdding) {
     })
     .catch(err => {
       // fetch failed, so save in indexed db
-      //saveRecord(transaction);
+      saveRecord(transaction);
       useIndexedDB("modelName", "modelStore", "put", { transaction });
 
       // clear form
@@ -199,5 +205,6 @@ document.querySelector("#add-btn").onclick = function () {
 };
 
 document.querySelector("#sub-btn").onclick = function () {
+  console.log("Hello World");
   sendTransaction(false);
 };

@@ -4,8 +4,7 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 require('dotenv').config();
 
-
-const PLORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -24,12 +23,12 @@ mongoose.connect(process.env.MONGODB_URI, {
 });
 
 app.get("*", function(req, res) {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 // routes
 app.use(require("./routes/api.js"));
 
 app.listen(PORT, () => {
-  console.log(`App running on port ${PLORT}!`);
+  console.log(`App running on port ${PORT}!`);
 });

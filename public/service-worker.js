@@ -2,18 +2,20 @@
 const FILES_TO_CACHE = [
     "/",
     "/index.html",
+    "/assets/index.js",
     "/assets/styles.css",
+    "/favicon.ico",
     "/assets/icons/icon-192x192.png",
     "/assets/icons/icon-512x512.png",
 ];
 
-const PRECACHE = "precache-v1";
-const RUNTIME = "runtime";
+const STATIC_CACHE = "static-cache-v1";
+const RUNTIME_CACHE = "runtime";
 
 self.addEventListener("install", (event) => {
     event.waitUntil(
         caches
-            .open(PRECACHE)
+            .open(STATIC_CACHE)
             .then((cache) => cache.addAll(FILES_TO_CACHE))
             .then(self.skipWaiting())
     );
@@ -21,7 +23,7 @@ self.addEventListener("install", (event) => {
 
 // Removes old code
 self.addEventListener("activate", (event) => {
-    const currentCaches = [PRECACHE, RUNTIME];
+    const currentCaches = [STATIC_CACHE, RUNTIME_CACHE];
     event.waitUntil(
         caches
             .keys()
@@ -47,7 +49,7 @@ self.addEventListener("fetch", (event) => {
                     return cachedResponse;
                 }
 
-                return caches.open(RUNTIME).then((cache) => {
+                return caches.open(RUNTIME_CACHE).then((cache) => {
                     return fetch(event.request).then((response) => {
                         return cache.put(event.request, response.clone()).then(() => {
                             return response;
